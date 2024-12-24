@@ -1,0 +1,27 @@
+<div class="modal-overlay">
+    <div class="modal-content">
+      <h3>Edit</h3>
+      <label>
+        Name:
+        <input type="text" [(ngModel)]="updatedRow.name" />
+      </label>
+      <label>
+        Email:
+        <input type="text" [(ngModel)]="updatedRow.email" />
+      </label>
+      <label>
+        Role:
+        <select [(ngModel)]="updatedRow.role" style="
+        width: 100%;">
+          <option *ngFor="let role of ['Admin', 'Editor', 'Viewer']" [value]="role">
+            {{ role }}
+          </option>
+        </select>
+      </label>
+      <div class="modal-actions">
+        <button (click)="onSave()">Save</button>
+        <button (click)="onCancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  

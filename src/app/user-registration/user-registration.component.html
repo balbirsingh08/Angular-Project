@@ -1,0 +1,65 @@
+<div class="registration-container">
+  <h2>User Registration</h2>
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" novalidate>
+    
+    <!-- Email Input -->
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        formControlName="email"
+        placeholder="Enter your email"
+        required
+      />
+      <div *ngIf="formSubmitted && f.email?.invalid" class="error">
+        <div *ngIf="f.email?.errors?.['required']">Email is required.</div>
+        <div *ngIf="f.email?.errors?.['email']">Invalid email format.</div>
+      </div>
+    </div>
+
+    <!-- Password Input -->
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        class="form-control"
+        formControlName="password"
+        placeholder="Create a password"
+        required
+      />
+      <div *ngIf="formSubmitted && f.password?.invalid" class="error">
+        <div *ngIf="f.password?.errors?.['required']">Password is required.</div>
+        <div *ngIf="f.password?.errors?.['minlength']">Password must be at least 8 characters long.</div>
+        <div *ngIf="f.password?.errors?.['pattern']">Password must contain letters and numbers.</div>
+      </div>
+    </div>
+
+    <!-- Confirm Password Input -->
+    <div class="form-group">
+      <label for="confirmPassword">Confirm Password:</label>
+      <input
+        type="password"
+        id="confirmPassword"
+        class="form-control"
+        formControlName="confirmPassword"
+        placeholder="Confirm your password"
+        required
+      />
+      <div *ngIf="formSubmitted && f.confirmPassword?.invalid" class="error">
+        <div *ngIf="f.confirmPassword?.errors?.['required']">Confirm password is required.</div>
+        <div *ngIf="f.confirmPassword?.errors?.['mismatch']">Passwords do not match.</div>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary">Register</button>
+  </form>
+
+  <div class="footer">
+    <p>Already have an account?</p>
+    <a routerLink="/login" class="link">Sign In</a>
+  </div>
+</div>

@@ -1,16 +1,36 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home.component';
+import { SupportComponent } from './support/support.component';
+import { CalculatorComponent } from './calculator/calculator.component';
+import { UserRegistrationComponent } from './user-registration/user-registration.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
+    HomeComponent,
+    SupportComponent,
+    CalculatorComponent,
+    UserRegistrationComponent,
+    ModalComponent
+  ],
+  exports: [
+    ModalComponent, // Export the modal component
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

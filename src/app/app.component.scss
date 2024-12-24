@@ -1,0 +1,53 @@
+.app-container {
+  text-align: center;
+  margin-top: 50px;
+  margin: 20px; /* This margin is already defined, so you can remove one of them */
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between; /* Space between left and right sections */
+  background-color: #333;
+  padding: 10px;
+  list-style: none;
+  align-items: center; /* Center items vertically */
+
+  .nav-left {
+    display: flex; /* Use flexbox for left items */
+    li {
+      margin-right: 15px; /* Space between items */
+    }
+  }
+
+  .nav-right {
+    display: flex; /* Use flexbox for right items */
+    align-items: center; /* Center items vertically */
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+
+    &.active {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    &:hover {
+      color: #00bcd4;
+    }
+  }
+}
+
+.welcome-message {
+  color: white; /* Ensure the welcome message is visible */
+  font-weight: bold; /* Optional: make the welcome message bold */
+}
+
+.logout {
+  margin-left: 20px; /* Space between welcome message and logout button */
+  a {
+    color: red; /* Optional: change color for logout */
+  }
+}

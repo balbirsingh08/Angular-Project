@@ -1,0 +1,60 @@
+.calculator-container {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  .input-container {
+    margin-bottom: 10px;
+
+    label {
+      margin-right: 10px;
+      font-weight: bold;
+    }
+
+    input {
+      padding: 5px;
+      width: 150px;
+    }
+  }
+
+  .buttons-container {
+    margin-top: 20px;
+
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+      }
+
+      &.active {
+        background-color:green; /* Highlight color for active button */
+        font-weight: bold; /* Optional: make the active button bold */
+      }
+    }
+  }
+
+  .result-container {
+    margin-top: 20px;
+
+    h3 {
+      font-size: 18px;
+      color: #333;
+    }
+  }
+}

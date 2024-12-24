@@ -1,0 +1,100 @@
+<div class="home-container">
+  <h2>Home</h2>
+
+  <div class="controls-container">
+    <!-- Search Input -->
+    <div class="search-container">
+      <label for="search">Search:</label>
+      <input
+        id="search"
+        type="text"
+        (input)="onSearchChange($event)"
+        placeholder="Search by name, email, or role"
+        class="search-input" />
+    </div>
+
+    <!-- Role Dropdown -->
+    <div class="role-container">
+      <label for="role">Filter by Role:</label>
+      <select id="role" (change)="onRoleChange($event)">
+        <option value="">All Roles</option>
+        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+      </select>
+    </div>
+
+    <!-- Add New Row Button -->
+    <div class="add-row-container">
+      <button mat-button color="primary" (click)="onAddNewRow()">Add New Row</button>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th *ngFor="let column of displayedColumns">{{ column | titlecase }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of paginatedData">
+        <td>{{ row.id }}</td>
+        <td>{{ row.name }}</td>
+        <td>{{ row.email }}</td>
+        <td>{{ row.role }}</td>
+        <td>
+          <button mat-button color="primary" (click)="onEdit(row)">Edit</button>
+          <button mat-button color="warn" (click)="onDelete(row)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Pagination Controls -->
+<div class="pagination-container">
+  <div class="items-per-page">
+    <label for="itemsPerPage">Items per page:</label>
+    <input
+      type="number"
+      min="1"
+      max="100"
+      [(ngModel)]="itemsPerPage"
+      (change)="onItemsPerPageChange()"
+      class="form-control" />
+  </div>
+
+  <div class="pagination-controls">
+    <!-- Previous Page -->
+    <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">
+      Previous
+    </button>
+
+    <!-- Dynamic Page Buttons -->
+    <button
+      *ngFor="let page of pagesToShow"
+      (click)="onPageChange(page)"
+      [class.active]="page === currentPage">
+      {{ page }}
+    </button>
+
+    <!-- Ellipsis for remaining pages -->
+    <span *ngIf="showEllipsis">...</span>
+
+    <!-- Last Page Button -->
+    <button *ngIf="showLastPageButton" (click)="onPageChange(totalPages)">
+      Last
+    </button>
+
+    <!-- Next Page -->
+    <button
+      (click)="onPageChange(currentPage + 1)"
+      [disabled]="currentPage === totalPages">
+      Next
+    </button>
+  </div>
+</div>
+
+<app-modal *ngIf="showModal" 
+                [data]="editingRow" 
+                (close)="onCloseModal()" 
+                (save)="onSaveModal($event)">
+</app-modal>

@@ -11,6 +11,11 @@ import { CalculatorComponent } from './calculator/calculator.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ModalComponent } from './modal/modal.component';
+import { FilterDropdownComponent } from './filter-dropdown/filter-dropdown.component';
+import { SearchComponent } from './search/search.component';
+import { ModalPopupComponent } from './modal-popup/modal-popup.component';
+import { MessagePopupComponent } from './message-popup/message-popup.component';
+import { DeleteConfirmationPopupComponent } from './delete-confirmation-popup/delete-confirmation-popup.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +25,12 @@ import { ModalComponent } from './modal/modal.component';
     SupportComponent,
     CalculatorComponent,
     UserRegistrationComponent,
-    ModalComponent
+    ModalComponent,
+    FilterDropdownComponent,
+    SearchComponent,
+    ModalPopupComponent,
+    MessagePopupComponent,
+    DeleteConfirmationPopupComponent
   ],
   exports: [
     ModalComponent, // Export the modal component

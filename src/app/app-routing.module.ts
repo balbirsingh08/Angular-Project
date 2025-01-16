@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { SupportComponent } from './support/support.component';
 import { CalculatorComponent } from './calculator/calculator.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
+import { FilterDropdownComponent } from './filter-dropdown/filter-dropdown.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirect root to Login
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'support', component: SupportComponent },
   { path: 'calculator', component: CalculatorComponent },
   { path: 'register', component: UserRegistrationComponent },
+  { path: 'filter-dropdown', component: FilterDropdownComponent },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -3,15 +3,7 @@
 
   <div class="controls-container">
     <!-- Search Input -->
-    <div class="search-container">
-      <label for="search">Search:</label>
-      <input
-        id="search"
-        type="text"
-        (input)="onSearchChange($event)"
-        placeholder="Search by name, email, or role"
-        class="search-input" />
-    </div>
+    <app-search (input)="onSearchChange($event)"></app-search>
 
     <!-- Role Dropdown -->
     <div class="role-container">
@@ -25,6 +17,7 @@
     <!-- Add New Row Button -->
     <div class="add-row-container">
       <button mat-button color="primary" (click)="onAddNewRow()">Add New Row</button>
+      <button style="margin-left: 9px;"(click)="showErrorModal()">Show Error</button>
     </div>
   </div>
 
@@ -64,7 +57,7 @@
 
   <div class="pagination-controls">
     <!-- Previous Page -->
-    <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">
+    <button class="prev-btn" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">
       Previous
     </button>
 
@@ -80,7 +73,7 @@
     <span *ngIf="showEllipsis">...</span>
 
     <!-- Last Page Button -->
-    <button *ngIf="showLastPageButton" (click)="onPageChange(totalPages)">
+    <button class="next-btn" *ngIf="showLastPageButton" (click)="onPageChange(totalPages)">
       Last
     </button>
 
@@ -94,7 +87,30 @@
 </div>
 
 <app-modal *ngIf="showModal" 
-                [data]="editingRow" 
-                (close)="onCloseModal()" 
-                (save)="onSaveModal($event)">
+           [data]="editingRow" 
+           (close)="onCloseModal()" 
+           (save)="onSaveModal($event)">
 </app-modal>
+
+<app-modal-popup
+  [title]="'Error Alert'"
+  [message]="errorMessage"
+  [isVisible]="isModalVisible"
+  (onClose)="handleModalClose()"
+></app-modal-popup>
+<!-- Existing HTML content -->
+
+<app-delete-confirmation-popup 
+  [isVisible]="isDeleteConfirmationVisible"
+  [message]="deleteMessage"
+  (confirmDelete)="onConfirmDelete()"
+  (cancelDelete)="onCancelDelete()">
+</app-delete-confirmation-popup>
+
+<!-- Existing HTML content -->
+<app-message-popup 
+  [title]="'Success'"
+  [message]="successMessage"
+  [isVisible]="showSuccessPopup"
+  (onClose)="showSuccessPopup = false">
+</app-message-popup>

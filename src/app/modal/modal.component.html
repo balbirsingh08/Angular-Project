@@ -1,27 +1,40 @@
 <div class="modal-overlay">
-    <div class="modal-content">
-      <h3>Edit</h3>
-      <label>
-        Name:
-        <input type="text" [(ngModel)]="updatedRow.name" />
-      </label>
-      <label>
-        Email:
-        <input type="text" [(ngModel)]="updatedRow.email" />
-      </label>
-      <label>
-        Role:
-        <select [(ngModel)]="updatedRow.role" style="
-        width: 100%;">
-          <option *ngFor="let role of ['Admin', 'Editor', 'Viewer']" [value]="role">
-            {{ role }}
-          </option>
-        </select>
-      </label>
-      <div class="modal-actions">
-        <button (click)="onSave()">Save</button>
-        <button (click)="onCancel()">Cancel</button>
+  <div class="modal-content">
+    <h3>Edit</h3>
+    <label>
+      Name:
+      <input type="text" [(ngModel)]="updatedRow.name" required />
+    </label>
+    <label>
+      Email:
+      <input
+        type="email"
+        [(ngModel)]="updatedRow.email"
+        #email="ngModel"
+        required
+        pattern="^[a-zA-Z0-9._%+-]+@(accenture\.com|gmail\.com)$"
+        style="width: 95%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    "
+      />
+      <div *ngIf="email.invalid && email.touched" style="color: red;">
+        Please enter a valid email ending with @accenture.com or @gmail.com.
       </div>
+    </label>
+    <label>
+      Role:
+      <select [(ngModel)]="updatedRow.role" style="width: 100%;" required>
+        <option *ngFor="let role of ['Admin', 'Editor', 'Viewer']" [value]="role">
+          {{ role }}
+        </option>
+      </select>
+    </label>
+    <div class="modal-actions">
+      <button (click)="onSave()">Save</button>
+      <button (click)="onCancel()">Cancel</button>
     </div>
   </div>
-  
+</div>

@@ -1,0 +1,11 @@
+<div class="search-container">
+    <label for="search">Search:</label>
+    <input
+      id="search"
+      type="text"
+      [value]="searchValue"
+      (input)="onSearchChange($event)"
+      placeholder="Search by name, email, or role"
+      class="search-input" />
+  </div>
+  

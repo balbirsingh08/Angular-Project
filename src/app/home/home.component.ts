@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DeleteConfirmationPopupComponent } from '../delete-confirmation-popup/delete-confirmation-popup.component'; // Import the delete confirmation popup component
 
 @Component({
   selector: 'app-home',
@@ -6,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  // Define table columns and data
-  showModal: boolean = false; // Controls modal visibility
-  editingRow: any = null; // Holds the row being edited
+  successMessage: string = '';
+  showSuccessPopup: boolean = false;
+  isModalVisible: boolean = false;
+  errorMessage: string = '';
+  isAddMode: boolean = false; 
+  showModal: boolean = false; 
+  editingRow: any = null; 
   newRow = { id: null, name: '', email: '', role: '' };
   displayedColumns: string[] = ['Id', 'Name', 'E-Mail', 'Role','Action'];
   tableData = [
@@ -41,16 +46,22 @@ export class HomeComponent implements OnInit {
     { id: 27, name: 'Henry Turner', email: 'henry.turner@example.com', role: 'Viewer' },
     { id: 28, name: 'Scarlett Martin', email: 'scarlett.martin@example.com', role: 'Admin' },
     { id: 29, name: 'Elijah Thomas', email: 'elijah.thomas@example.com', role: 'Editor' },
-    { id: 30, name: 'Lily Wilson', email: 'lily.wilson@example.com', role: 'Viewer' }
-];
-itemsPerPage: number = 5; // Default items per page
-  currentPage: number = 1; // Current page
-  searchTerm: string = ''; // Search term
-  roleFilter: string = ''; // Role filter
-  paginatedData: any[] = []; // Data to display for the current page
-  filteredData: any[] = []; // Data after filtering
+    { id: 30, name: 'Lily Wilson', email: 'lily.wilson@example.com', role: 'Viewer' },
+    { id: 31, name: 'Emily Davis', email: 'emily.davis@example.com', role: 'Admin' }
+  ];
+  itemsPerPage: number = 5; 
+  currentPage: number = 1;
+  searchTerm: string = '';
+  roleFilter: string = '';
+  paginatedData: any[] = []; 
+  filteredData: any[] = [];
 
-  roles = ['Admin', 'Editor', 'Viewer']; // List of available roles for the dropdown
+  roles = ['Admin', 'Editor', 'Viewer']; 
+
+  // New properties for delete confirmation
+  isDeleteConfirmationVisible: boolean = false;
+  deleteMessage: string = '';
+  rowToDelete: any = null;
 
   constructor() {}
 
@@ -65,7 +76,7 @@ itemsPerPage: number = 5; // Default items per page
         item.email.toLowerCase().includes(this.searchTerm.toLowerCase())) &&
       (this.roleFilter ? item.role === this.roleFilter : true)
     );
-    this.updatePaginatedData(); // Update pagination after filtering
+    this.updatePaginatedData(); 
   }
 
   updatePaginatedData(): void {
@@ -83,19 +94,19 @@ itemsPerPage: number = 5; // Default items per page
   }
 
   onItemsPerPageChange(): void {
-    this.currentPage = 1; // Reset to first page
+    this.currentPage = 1; 
     this.updatePaginatedData();
   }
 
   onSearchChange(event: any): void {
     this.searchTerm = event.target.value;
-    this.currentPage = 1; // Reset to first page
+    this.currentPage = 1; 
     this.updateFilteredData();
   }
 
   onRoleChange(event: any): void {
     this.roleFilter = event.target.value;
-    this.currentPage = 1; // Reset to first page
+    this.currentPage = 1; 
     this.updateFilteredData();
   }
 
@@ -103,9 +114,9 @@ itemsPerPage: number = 5; // Default items per page
     return Math.ceil(this.filteredData.length / this.itemsPerPage);
   }
 
-  pagesToShow: number[] = []; // Stores the page numbers to show
-  showEllipsis: boolean = false; // Whether to show ellipsis
-  showLastPageButton: boolean = false; // Whether to show the last page button
+  pagesToShow: number[] = []; 
+  showEllipsis: boolean = false; 
+  showLastPageButton: boolean = false;
 
   private updatePageButtons(): void {
     const pageNumbers = [];
@@ -131,36 +142,72 @@ itemsPerPage: number = 5; // Default items per page
     this.showLastPageButton = this.totalPages > 5 && this.currentPage < totalPages - 2;
   }
 
-  // CRUD Operations
   onEdit(row: any): void {
-    this.editingRow = { ...row }; // Clone row to avoid direct modification
-    this.showModal = true; // Open the modal
+    this.editingRow = { ...row }; 
+    this.showModal = true; 
   }
 
+  // New method to show delete confirmation popup
   onDelete(row: any): void {
-    this.tableData = this.tableData.filter(item => item.id !== row.id); // Remove the row
-    this.updateFilteredData(); // Refresh the data
+    this.rowToDelete = row;
+    this.deleteMessage = `Are you sure you want to delete the record for ${row.name}?`;
+    this.isDeleteConfirmationVisible = true; // Show delete confirmation popup
+  }
+
+  // Handle the delete confirmation
+  onConfirmDelete(): void {
+    if (this.rowToDelete) {
+      this.tableData = this.tableData.filter(item => item.id !== this.rowToDelete.id);
+      this.updateFilteredData(); 
+      this.successMessage = `Successfully deleted the record for ${this.rowToDelete.name}`;
+      this.showSuccessPopup = true; // Show success popup
+    }
+    this.isDeleteConfirmationVisible = false; // Close the confirmation popup
+  }
+
+
+  // Handle the cancellation of delete
+  onCancelDelete(): void {
+    this.isDeleteConfirmationVisible = false; // Close the confirmation popup
   }
 
   onCloseModal(): void {
-    this.showModal = false; // Close the modal
+    this.showModal = false;
+    this.isAddMode = false;
+    this.editingRow = null;
   }
 
   onSaveModal(updatedRow: any): void {
-    const index = this.tableData.findIndex(item => item.id === updatedRow.id);
-    if (index > -1) {
-      this.tableData[index] = { ...updatedRow }; // Update the row in tableData
-      this.updateFilteredData(); // Refresh the displayed data
+    if (this.isAddMode) {
+      const maxId = this.tableData.length > 0
+        ? Math.max(...this.tableData.map(item => item.id))
+        : 0;
+      updatedRow['id'] = maxId + 1;
+      this.tableData.unshift(updatedRow);
+      this.updateFilteredData(); 
+      this.successMessage = `Successfully added the record for ${updatedRow.name}`;
+      this.showSuccessPopup = true; // Show success popup
+    } else {
+      const index = this.tableData.findIndex(item => item.id === updatedRow.id);
+      if (index > -1) {
+        this.tableData[index] = { ...updatedRow };
+        this.updateFilteredData();
+      }
     }
-    this.onCloseModal(); // Close the modal
+    this.onCloseModal();
   }
 
   onAddNewRow(): void {
-    // Generate a new row with an id higher than the current max
-    const newId = this.tableData.length ? Math.max(...this.tableData.map(item => item.id)) + 1 : 1;
-    const newRow = { ...this.newRow, id: newId };
-    this.tableData.push(newRow); // Add the new row to the tableData
-    this.updateFilteredData(); // Refresh the displayed data
-    this.newRow = { id: null, name: '', email: '', role: '' }; // Reset the form
+    this.isAddMode = true; 
+    this.editingRow = { ...this.newRow }; 
+    this.showModal = true;
+  }
+  showErrorModal(): void {
+    this.errorMessage = 'An unexpected error occurred. Please try again.';
+    this.isModalVisible = true;
+  }
+
+  handleModalClose(): void {
+    this.isModalVisible = false;
   }
 }

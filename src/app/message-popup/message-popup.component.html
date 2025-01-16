@@ -1,0 +1,9 @@
+<div class="message-popup" *ngIf="isVisible">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <h3>{{ title }}</h3>
+      <p>{{ message }}</p>
+      <button mat-button color="primary" (click)="closeModal()">OK</button>
+    </div>
+  </div>
+  

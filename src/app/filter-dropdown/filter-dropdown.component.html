@@ -1,0 +1,21 @@
+<div class="filter-dropdown-container">
+  <!-- Country Dropdown -->
+  <div class="dropdown">
+    <label for="country">Select Country:</label>
+    <select id="country" (change)="onCountryChange($event)" [(ngModel)]="selectedCountry">
+      <option value="" disabled selected>Select Country</option> <!-- Placeholder -->
+      <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+    </select>
+  </div>
+
+  <!-- Location Dropdown -->
+  <div class="dropdown">
+    <label for="location">Select Location:</label>
+    <select id="location" [disabled]="!filteredLocations.length"> <!-- Disable if no locations -->
+      <option value="" disabled selected>Select Location</option> <!-- Placeholder -->
+      <option *ngFor="let location of filteredLocations" [value]="location">
+        {{ location }}
+      </option>
+    </select>
+  </div>
+</div>
